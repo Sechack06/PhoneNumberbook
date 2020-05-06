@@ -16,14 +16,7 @@ extern HINSTANCE g_hInst;
 
 void adduser(USER data)
 {
-    char trscnuspath[260] = ".\\trscn\\";
-    strcat(trscnuspath, data.name);
     data.key = makekey();
-    if (PathFileExistsA(data.userdatapath))
-    {
-        MessageBoxA(hWndlogin, "이미 존재하는 사용자 이름입니다.", "이름 존재", MB_OK | MB_ICONINFORMATION);
-        return;
-    }
     FILE* fp = fopen(data.userdatapath, "wb");
     if (fp == NULL)
     {
@@ -32,7 +25,7 @@ void adduser(USER data)
     }
     else
     {
-        if (!_mkdir(data.userpath) && !_mkdir(trscnuspath))
+        if (!_mkdir(data.userpath))
         {
             data = usermakecryptogram(data);
             int count = 0;
